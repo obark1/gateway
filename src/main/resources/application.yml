@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: camel
+
+ # cloud:
+ #   gateway:
+ #     server:
+ #       webmvc:
+ #         routes:
+ #           - id: books
+ #             uri: http://localhost:7979
+ #             predicates:
+ #               - Path=/api/books/**
+ #             filters:
+ #               - StripPrefix=1
+
+server:
+  port: 7878
