@@ -22,17 +22,14 @@ import static org.springframework.cloud.gateway.server.mvc.predicate.GatewayRequ
 public class GatewayRoutesConfig {
 
     @Bean
-    public RouterFunction<ServerResponse> booksRouteWithRateLimit(RateLimitFilterFunction rateLimitFilterFunction) {
+    public RouterFunction<ServerResponse> booksRouteWithRateLimit(RateLimitFilterFunction rateLimitFilterFunction,
+                                                                  ApiKeyFilterFunction apiKeyFilterFunction) {
         return route("books")
                 .route(path("/api/books/**"), http())
-                .before(uri("http://localhost:7979"))
+                .before(uri("http://book-library-service:8080"))
                 .before(stripPrefix(1))
+                .filter(apiKeyFilterFunction)
                 .filter(rateLimitFilterFunction)
                 .build();
-
-        // TODO: verify this compiles against your exact Spring Cloud Gateway version —
-        // the Java Routes API has shifted slightly across recent releases (e.g.
-        // HandlerFunctions.http(String) was deprecated in favor of http() + before(uri(...))
-        // per the docs — worth checking which era your dependency is on).
     }
 }
